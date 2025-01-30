@@ -1,0 +1,3 @@
+python-telegram-bot[rate-limiter,webhooks,job-queue]
+python-dotenv
+requests
