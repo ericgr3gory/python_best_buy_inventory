@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
-#LINK = os.getenv('BEST_BUY_LINK')
+LINK = os.getenv('BEST_BUY_LINK')
 #LINK_5000 = os.getenv('BEST_BUY_LINK_5000')
-LINK = os.getenv('BEST_BUY_LINK_TEST')
+#LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090'):
 def send_notification(title, message):
     API_TOKEN = os.getenv('API_TOKEN')
