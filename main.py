@@ -32,7 +32,8 @@ def main():
             #geolocation={"latitude": 36.1699, "longitude": -115.1398},  # Las Vegas
             #geolocation={"latitude": 36.2553, "longitude": -115.6350},  # Mount Charleston
             geolocation={"latitude": 36.2826, "longitude": -115.2914},  # Centennial Hills
-            permissions=["geolocation"]
+            permissions=["geolocation"],
+            viewport={"width": 1920, "height": 1080}
         )
         page = context.new_page()
         page.goto(LINK)
@@ -42,11 +43,11 @@ def main():
         button_status = page.locator('data-button-state="COMING_SOON"')
         while button.is_disabled() and button_status:
             
-            for _ in range(2):
+            for _ in range(1):
                 if button.is_disabled() and button_status:
                     print("Button is disabled!")
-                    sleep(2)
-            sleep(3)
+                    sleep(1)
+            sleep(1)
             try: 
                 page.reload()
                 print('reload')
