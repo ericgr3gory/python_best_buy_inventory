@@ -45,10 +45,14 @@ def main():
         
         sku = (LINK[-7:])
         button = page.locator(f"[data-sku-id='{sku}']")
+        button = button.is_disabled()
         button_status = page.locator('data-button-state="SOLD_OUT"')
-        print(button.count())
-        while button.is_disabled() and button_status:
+        
+        while button and button_status:
             print("Button is disabled!")
+            button = page.locator(f"[data-sku-id='{sku}']")
+            button = button.is_disabled()
+            button_status = page.locator('data-button-state="SOLD_OUT"')
             
             try: 
                 page.reload()
@@ -56,7 +60,8 @@ def main():
             
             except TimeoutError:
                 print('timeout')
-            
+                
+        button = page.locator(f"[data-sku-id='{sku}']")    
         button_status = page.locator('data-button-state="ADD_TO_CART"')
         
         if (button.is_enabled() and button_status):
