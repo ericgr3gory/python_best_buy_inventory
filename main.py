@@ -45,7 +45,7 @@ def check_button_state(page, sku):
             button = page.locator(f"[data-sku-id='{sku}']")
             button = button.is_disabled()
             logging.info(f"button is disabled {button}")
-            button_status = page.locator('data-button-state="SOLD_OUT"').count() > 0
+            button_status = page.locator('[data-button-state="SOLD_OUT"]').count() > 0
             logging.info(f"button status sold out: {button_status}")
             return button and button_status
             
