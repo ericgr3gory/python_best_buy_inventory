@@ -53,7 +53,12 @@ def main():
         )
         page = context.new_page()
         logging.info('Load Page to Browser')
-        page.goto(LINK, timeout=60000)
+        try:
+            page.goto(LINK, timeout=60000)
+        
+        except TimeoutError as e:
+            sleep(5)
+            page.goto(LINK, timeout=60000)
         
         sku = (LINK[-7:])
         button = page.locator(f"[data-sku-id='{sku}']")
