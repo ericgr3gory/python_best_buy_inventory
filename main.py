@@ -3,6 +3,17 @@ from time import sleep
 import os
 from dotenv import load_dotenv
 import requests
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s [%(levelname)s] %(message)s',  # Log message format
+    datefmt='%Y-%m-%d %H:%M:%S',  # Date format
+    handlers=[
+        logging.StreamHandler(),  # Output logs to the console
+        logging.FileHandler("script.log", mode='w')  # Output logs to a file (overwrites each run)
+    ]
+)
 
 load_dotenv()
 
@@ -41,31 +52,38 @@ def main():
             viewport={"width": 1920, "height": 1080}
         )
         page = context.new_page()
+        logging.info('Load Page to Browser')
         page.goto(LINK, timeout=60000)
         
         sku = (LINK[-7:])
         button = page.locator(f"[data-sku-id='{sku}']")
         button = button.is_disabled()
+        logging.info(button)
         button_status = page.locator('data-button-state="SOLD_OUT"')
+        logging.info(button_status)
         
         while button and button_status:
-            print("Button is disabled!")
+
             button = page.locator(f"[data-sku-id='{sku}']")
             button = button.is_disabled()
             button_status = page.locator('data-button-state="SOLD_OUT"')
+            logging.info(button)
+            logging.info(button_status)
             
-            try: 
+            try:
+                logging.info('trying to reload') 
                 page.reload()
-                print('reload')
+                logging.info('page reloaded')
             
             except TimeoutError:
-                print('timeout')
+                logging.info('page failed to reload timeout')
                 
         button = page.locator(f"[data-sku-id='{sku}']")    
         button_status = page.locator('data-button-state="ADD_TO_CART"')
-        
+        logging.info(button)
+        logging.info(button_status)
         if (button.is_enabled() and button_status):
-            print('run to the store')
+            logging.info('run to the store')
             send_notification("BUY", LINK)
             
         browser.close()
