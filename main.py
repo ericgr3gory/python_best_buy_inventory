@@ -37,7 +37,33 @@ def send_notification(title, message):
         "message": message
     }
     requests.post(url, data=data)
+    
+def check_button_state(page, sku):
+    while True:
+        
+        try:
+            button = page.locator(f"[data-sku-id='{sku}']")
+            button = button.is_disabled()
+            logging.info(f"button is disabled {button}")
+            button_status = page.locator('data-button-state="SOLD_OUT"').count() > 0
+            logging.info(f"button status sold out: {button_status}")
+            return button and button_status
+            
+        except TimeoutError as e:
+            logging.error(e)
+            reloading_page(page)
 
+def reloading_page(page):
+    while True:
+        try:
+            logging.info('trying to reload') 
+            page.reload()
+            logging.info('page reloaded')
+            return page
+        
+        except TimeoutError:
+            logging.info('page failed to reload timeout')
+            sleep(1)
 
 def main():
     with sync_playwright() as p:
@@ -61,27 +87,12 @@ def main():
             page.goto(LINK, timeout=60000)
         
         sku = (LINK[-7:])
-        button = page.locator(f"[data-sku-id='{sku}']")
-        button = button.is_disabled()
-        logging.info(button)
-        button_status = page.locator('data-button-state="SOLD_OUT"')
-        logging.info(button_status)
         
-        while button and button_status:
-
-            button = page.locator(f"[data-sku-id='{sku}']")
-            button = button.is_disabled()
-            button_status = page.locator('data-button-state="SOLD_OUT"')
-            logging.info(button)
-            logging.info(button_status)
-            
-            try:
-                logging.info('trying to reload') 
-                page.reload()
-                logging.info('page reloaded')
-            
-            except TimeoutError:
-                logging.info('page failed to reload timeout')
+        button_status = check_button_state(page, sku)
+        
+        while button_status:
+            button_status = check_button_state(page, sku)
+            reloading_page(page)
                 
         button = page.locator(f"[data-sku-id='{sku}']")    
         button_status = page.locator('data-button-state="ADD_TO_CART"')
