@@ -45,7 +45,7 @@ def main():
         
         sku = (LINK[-7:])
         button = page.locator(f"[data-sku-id='{sku}']")
-        button_status = page.locator('data-button-state="COMING_SOON"')
+        button_status = page.locator('data-button-state="SOLD_OUT"')
         print(button.count())
         while button.is_disabled() and button_status:
             print("Button is disabled!")
