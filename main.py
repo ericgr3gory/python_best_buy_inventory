@@ -42,12 +42,8 @@ def main():
         button = page.locator(f"[data-sku-id='{sku}']") #5090
         button_status = page.locator('data-button-state="COMING_SOON"')
         while button.is_disabled() and button_status:
+            print("Button is disabled!")
             
-            for _ in range(1):
-                if button.is_disabled() and button_status:
-                    print("Button is disabled!")
-                    sleep(1)
-            sleep(1)
             try: 
                 page.reload()
                 print('reload')
@@ -56,13 +52,11 @@ def main():
                 print('timeout')
             
         button_status = page.locator('data-button-state="ADD_TO_CART"')
-        print(button.is_enabled())
-        print(button_status)
         
         if (button.is_enabled() and button_status):
             print('run to the store')
             send_notification("BUY", LINK)
-        sleep(2)
+            
         browser.close()
 if __name__ == '__main__':
         
