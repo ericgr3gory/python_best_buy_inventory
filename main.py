@@ -5,10 +5,15 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
+
+
 LINK = os.getenv('BEST_BUY_LINK')
 #LINK_5000 = os.getenv('BEST_BUY_LINK_5000')
 #LINK = os.getenv('BEST_BUY_LINK_TEST')
-#LINK = os.getenv('BEST_BUY_giga_5090'):
+#LINK = os.getenv('BEST_BUY_giga_5090')
+
+
+
 def send_notification(title, message):
     API_TOKEN = os.getenv('API_TOKEN')
     USER_KEY = os.getenv('USER_KEY')
@@ -36,12 +41,13 @@ def main():
             viewport={"width": 1920, "height": 1080}
         )
         page = context.new_page()
-        page.goto(LINK)
-        sku = (LINK[-7:])
+        page.goto(LINK, timeout=60000)
         
-        button = page.locator(f"[data-sku-id='{sku}']") #5090
+        sku = (LINK[-7:])
+        button = page.locator(f"[data-sku-id='{sku}']")
         button_status = page.locator('data-button-state="COMING_SOON"')
-        while button.is_disabled() and button_status:
+        
+        while button.count() == 0 and button_status:
             print("Button is disabled!")
             
             try: 
