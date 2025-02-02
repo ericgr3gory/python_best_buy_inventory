@@ -23,7 +23,16 @@ LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
-
+def open_broswer(page):
+    while True:
+        logging.info('attempting to Load Page to Browser')
+        try:
+            page.goto(LINK)
+            logging.info('page loaded')
+        except TimeoutError as e:
+            sleep(3)
+            
+        
 
 def send_notification(title, message):
     API_TOKEN = os.getenv('API_TOKEN')
@@ -80,18 +89,18 @@ def main():
         page = context.new_page()
         logging.info('Load Page to Browser')
         try:
-            page.goto(LINK, timeout=60000)
+            page.goto(LINK)
         
         except TimeoutError as e:
             sleep(5)
-            page.goto(LINK, timeout=60000)
+            page.goto(LINK)
         
         sku = (LINK[-7:])
         
-        button_status = check_button_state(page, sku)
+        button_status_is_soldout = check_button_state(page, sku)
         
-        while button_status:
-            button_status = check_button_state(page, sku)
+        while button_status_is_soldout:
+            button_status_is_soldout() = check_button_state(page, sku)
             reloading_page(page)
                 
         button = page.locator(f"[data-sku-id='{sku}']")    
