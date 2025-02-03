@@ -33,8 +33,6 @@ def open_browser(pw):
         args=["--use-fake-ui-for-media-stream"]  # Force geolocation permission
         )
     context = browser.new_context(
-        #geolocation={"latitude": 36.1699, "longitude": -115.1398},  # Las Vegas
-        #geolocation={"latitude": 36.2553, "longitude": -115.6350},  # Mount Charleston
         geolocation={"latitude": 36.2826, "longitude": -115.2914},  # Centennial Hills
         permissions=["geolocation"],
         viewport={"width": 1920, "height": 1080}
@@ -49,7 +47,7 @@ def load_page(browser, context, page):
     
     
     attempts = 0
-    max_attenpts = 10
+    max_attempts = 10
     while True:
         attempts += 1
         logging.info(f'{attempts} attempts to Load Page to Browser')
@@ -61,7 +59,7 @@ def load_page(browser, context, page):
         
         except TimeoutError as e:
             logging.error(e)
-            if attempts > max_attenpts:
+            if attempts > max_attempts:
                 context.browser.close()
                 quit("page won't Load")
             
@@ -81,19 +79,18 @@ def send_notification(title, message):
     requests.post(url, data=data)
     
 def check_button_state(page, sku):
-    while True:
         
-        try:
-            button = page.locator(f"[data-sku-id='{sku}']")
-            button = button.is_disabled()
-            logging.info(f"button is disabled {button}")
-            button_status = page.locator('[data-button-state="SOLD_OUT"]').count() > 0
-            logging.info(f"button status sold out: {button_status}")
-            return button and button_status
+    try:
+        button = page.locator(f"[data-sku-id='{sku}']")
+        button = button.is_disabled()
+        logging.info(f"button is disabled {button}")
+        button_status = page.locator('[data-button-state="SOLD_OUT"]').count() > 0
+        logging.info(f"button status sold out: {button_status}")
+        return button and button_status
             
-        except TimeoutError as e:
-            logging.error(e)
-            reloading_page(page)
+    except TimeoutError as e:
+        logging.error(e)
+        return False
 
 def reloading_page(page):
     attempts = 0
@@ -123,14 +120,16 @@ def main():
     button_status_is_soldout = check_button_state(page, sku)
         
     while button_status_is_soldout:
-        button_status_is_soldout = check_button_state(page, sku)
         reloading_page(page)
+        button_status_is_soldout = check_button_state(page, sku)
                 
     button = page.locator(f"[data-sku-id='{sku}']")    
-    button_status = page.locator('data-button-state="ADD_TO_CART"')
+    button_status = page.locator('[data-button-state="ADD_TO_CART"]')
+
     logging.info(button)
     logging.info(button_status)
-    if (button.is_enabled() and button_status):
+    if button.is_enabled() and button_status.count() > 0:
+
         logging.info('run to the store')
         send_notification("BUY", LINK)
             
