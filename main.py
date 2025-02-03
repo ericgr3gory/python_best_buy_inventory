@@ -120,7 +120,7 @@ def main():
         
     while button_status_is_soldout:
         reloading_page(page)
-        button_status_is_soldout = check_button_state(page, sku)
+        button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
     button_status_is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
     
