@@ -78,13 +78,13 @@ def send_notification(title, message):
     }
     requests.post(url, data=data)
     
-def check_button_state(page, sku):
+def check_button_state(page, sku, state):
         
     try:
         button = page.locator(f"[data-sku-id='{sku}']")
         button = button.is_disabled()
         logging.info(f"button is disabled {button}")
-        button_status = page.locator('[data-button-state="SOLD_OUT"]').count() > 0
+        button_status = page.locator(f'[data-button-state="{state}"]').count() > 0
         logging.info(f"button status sold out: {button_status}")
         return button and button_status
             
@@ -114,22 +114,17 @@ def main():
     pw = start_playwright()
     browser, context, page = open_browser(pw)
     page = load_page(browser, context, page)
-    
     sku = (LINK[-7:])
         
-    button_status_is_soldout = check_button_state(page, sku)
+    button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
         
     while button_status_is_soldout:
         reloading_page(page)
         button_status_is_soldout = check_button_state(page, sku)
-                
-    button = page.locator(f"[data-sku-id='{sku}']")    
-    button_status = page.locator('[data-button-state="ADD_TO_CART"]')
-
-    logging.info(button)
-    logging.info(button_status)
-    if button.is_enabled() and button_status.count() > 0:
-
+    
+    button_status_is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
+    
+    if button_status_is_add_cart:
         logging.info('run to the store')
         send_notification("BUY", LINK)
             
