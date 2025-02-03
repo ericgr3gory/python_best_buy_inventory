@@ -96,7 +96,10 @@ def check_button_state(page, sku):
             reloading_page(page)
 
 def reloading_page(page):
+    attempts = 0
+    max_attempts = 5
     while True:
+        attempts += 1
         try:
             logging.info('trying to reload') 
             page.reload()
@@ -106,6 +109,9 @@ def reloading_page(page):
         except TimeoutError:
             logging.info('page failed to reload timeout')
             sleep(1)
+            if attempts > max_attempts:
+                logging.info('max atempts reached exiting')
+                quit()
 
 def main():
     pw = start_playwright()
