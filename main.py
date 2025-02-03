@@ -90,7 +90,7 @@ def check_button_state(page, sku):
             
     except TimeoutError as e:
         logging.error(e)
-        return False
+        return True
 
 def reloading_page(page):
     attempts = 0
