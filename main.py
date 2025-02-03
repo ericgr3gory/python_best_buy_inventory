@@ -23,14 +23,47 @@ LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
-def open_broswer(page):
+def start_playwright():
+    return sync_playwright().start() 
+
+
+def open_browser(pw):
+    
+    browser = pw.chromium.launch(headless=False,  # Run headless mode
+        args=["--use-fake-ui-for-media-stream"]  # Force geolocation permission
+        )
+    context = browser.new_context(
+        #geolocation={"latitude": 36.1699, "longitude": -115.1398},  # Las Vegas
+        #geolocation={"latitude": 36.2553, "longitude": -115.6350},  # Mount Charleston
+        geolocation={"latitude": 36.2826, "longitude": -115.2914},  # Centennial Hills
+        permissions=["geolocation"],
+        viewport={"width": 1920, "height": 1080}
+        )
+        
+    logging.info('Browser with context created')
+    page = context.new_page()
+    logging.info('page created')    
+    return browser, context, page
+    
+def load_page(browser, context, page):
+    
+    
+    attempts = 0
+    max_attenpts = 10
     while True:
-        logging.info('attempting to Load Page to Browser')
+        attempts += 1
+        logging.info(f'{attempts} attempts to Load Page to Browser')
+        
         try:
             page.goto(LINK)
             logging.info('page loaded')
+            return page
+        
         except TimeoutError as e:
-            sleep(3)
+            logging.error(e)
+            if attempts > max_attenpts:
+                context.browser.close()
+                quit("page won't Load")
             
         
 
@@ -75,43 +108,26 @@ def reloading_page(page):
             sleep(1)
 
 def main():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False,  # Run headless mode
-            args=["--use-fake-ui-for-media-stream"]  # Force geolocation permission
-        )
-        context = browser.new_context(
-            #geolocation={"latitude": 36.1699, "longitude": -115.1398},  # Las Vegas
-            #geolocation={"latitude": 36.2553, "longitude": -115.6350},  # Mount Charleston
-            geolocation={"latitude": 36.2826, "longitude": -115.2914},  # Centennial Hills
-            permissions=["geolocation"],
-            viewport={"width": 1920, "height": 1080}
-        )
-        page = context.new_page()
-        logging.info('Load Page to Browser')
-        try:
-            page.goto(LINK)
+    pw = start_playwright()
+    browser, context, page = open_browser(pw)
+    page = load_page(browser, context, page)
+    
+    sku = (LINK[-7:])
         
-        except TimeoutError as e:
-            sleep(5)
-            page.goto(LINK)
+    button_status_is_soldout = check_button_state(page, sku)
         
-        sku = (LINK[-7:])
-        
+    while button_status_is_soldout:
         button_status_is_soldout = check_button_state(page, sku)
-        
-        while button_status_is_soldout:
-            button_status_is_soldout() = check_button_state(page, sku)
-            reloading_page(page)
+        reloading_page(page)
                 
-        button = page.locator(f"[data-sku-id='{sku}']")    
-        button_status = page.locator('data-button-state="ADD_TO_CART"')
-        logging.info(button)
-        logging.info(button_status)
-        if (button.is_enabled() and button_status):
-            logging.info('run to the store')
-            send_notification("BUY", LINK)
+    button = page.locator(f"[data-sku-id='{sku}']")    
+    button_status = page.locator('data-button-state="ADD_TO_CART"')
+    logging.info(button)
+    logging.info(button_status)
+    if (button.is_enabled() and button_status):
+        logging.info('run to the store')
+        send_notification("BUY", LINK)
             
-        browser.close()
 if __name__ == '__main__':
         
     
