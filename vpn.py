@@ -1,6 +1,7 @@
 import subprocess
 import logging
 import os
+import glob
 
 def run_command(command):
     """
@@ -23,7 +24,7 @@ def run_command(command):
         return None
     
 def ls_directory():
-    files = os.listdir("/etc/openvpn/*.conf")
+    files = glob.glob("/etc/openvpn/*.conf")
     print(files)
     
     
