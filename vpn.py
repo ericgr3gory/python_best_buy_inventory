@@ -69,7 +69,7 @@ def stop_openvpn():
             ov_config = f"openvpn@{conf[2]}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
             run_command(command)
-    return command
+            return command
             
     
 
