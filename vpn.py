@@ -20,9 +20,9 @@ def run_command(command):
         )
         return result.stdout.strip()
     except subprocess.CalledProcessError as err:
-        logging.error(f"Error running command: {' '.join(command)}")
-        logging.error(f"Return code: {err.returncode}")
-        logging.error(f"Error output: {err.stderr}")
+        print(f"Error running command: {' '.join(command)}")
+        print(f"Return code: {err.returncode}")
+        print(f"Error output: {err.stderr}")
         return None
     
 def openvpn_conf_files():
