@@ -80,5 +80,5 @@ def stop_openvpn():
     
 if __name__ == '__main__':
     stop_openvpn()
-    #configs = openvpn_conf_files()
-    #start_openvpn(configs)
+    configs = openvpn_conf_files()
+    start_openvpn(configs)
