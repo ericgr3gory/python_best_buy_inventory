@@ -62,13 +62,13 @@ def find_openvpn_processes():
 
 
 def stop_openvpn():
-    #systemctl list-units --type=service | grep openvpn
-    pass
+    processes = find_openvpn_processes()
+    for proc in processes:
+        print(proc['cmdline'])
+    
 
     
     
     
 if __name__ == '__main__':
-    processes = find_openvpn_processes()
-    for proc in processes:
-        print(f"PID: {proc['pid']}, Name: {proc['name']}, Cmdline: {proc['cmdline']}")
+    stop_openvpn()
