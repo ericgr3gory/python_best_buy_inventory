@@ -65,8 +65,8 @@ def stop_openvpn():
     processes = find_openvpn_processes()
     if processes:
         for proc in processes:
-            conf = (proc['cmdline'][2])
-            print(conf)
+            conf = (proc['cmdline'])
+            print(conf[2])
             
     
 
