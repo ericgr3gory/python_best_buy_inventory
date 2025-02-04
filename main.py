@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import requests
 import logging
+import vpn
 
 logging.basicConfig(
     level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
