@@ -1,3 +1,4 @@
+import psutil
 import subprocess
 import logging
 import os
@@ -47,9 +48,18 @@ def start_openvpn(openvpn_config_list):
     run_command(command)
     return command
 
-def openvpn_currently_running():
-    command = ["systemctl", "list-units", "--type=service"]
-    return run_command(command)
+def find_openvpn_processes():
+    openvpn_processes = []
+    for proc in psutil.process_iter(attrs=["pid", "name", "cmdline"]):
+        try:
+            cmdline = proc.info.get("cmdline", [])
+            # Check if any argument in the command line contains "openvpn"
+            if any("openvpn" in arg for arg in cmdline):
+                openvpn_processes.append(proc.info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+    return openvpn_processes
+
 
 def stop_openvpn():
     #systemctl list-units --type=service | grep openvpn
@@ -59,4 +69,6 @@ def stop_openvpn():
     
     
 if __name__ == '__main__':
-    print(openvpn_currently_running())
+    processes = find_openvpn_processes()
+    for proc in processes:
+        print(f"PID: {proc['pid']}, Name: {proc['name']}, Cmdline: {proc['cmdline']}")
