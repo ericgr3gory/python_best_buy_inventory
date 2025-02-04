@@ -1,7 +1,6 @@
 import psutil
 import subprocess
 import logging
-import os
 import glob
 import random
 from pathlib import Path
@@ -68,6 +67,7 @@ def stop_openvpn():
             conf = (proc['cmdline'])
             ov_config = f"openvpn@{conf[2]}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
+            print(command)
             run_command(command)
             return command
             
@@ -78,5 +78,5 @@ def stop_openvpn():
     
 if __name__ == '__main__':
     stop_openvpn()
-    configs = openvpn_conf_files()
-    start_openvpn(configs)
+    #configs = openvpn_conf_files()
+    #start_openvpn(configs)
