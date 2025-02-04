@@ -66,7 +66,10 @@ def stop_openvpn():
     if processes:
         for proc in processes:
             conf = (proc['cmdline'])
-            print(conf[2])
+            ov_config = f"openvpn@{conf[2]}.service"
+            command = ["sudo", "systemctl", "stop", ov_config]
+            run_command(command)
+    return command
             
     
 
@@ -75,3 +78,5 @@ def stop_openvpn():
     
 if __name__ == '__main__':
     stop_openvpn()
+    configs = openvpn_conf_files()
+    start_openvpn(configs)
