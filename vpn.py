@@ -13,7 +13,6 @@ def run_command(command):
     try:
         result = subprocess.run(
             command,
-            shell=True,
             check=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -49,7 +48,7 @@ def start_openvpn(openvpn_config_list):
     return command
 
 def openvpn_currently_running():
-    command = ["systemctl", "list-units", "--type=service", "|",  "grep", "openvpn"]
+    command = ["systemctl", "list-units", "--type=service"]
     return run_command(command)
 
 def stop_openvpn():
