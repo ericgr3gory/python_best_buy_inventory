@@ -60,10 +60,8 @@ def load_page(browser, context, page):
         
         except TimeoutError as e:
             logging.error(e)
-            logging.info('stopping vpn')
-            vpn.stop_openvpn()
-            logging.info('starting vpn')
-            vpn.start_openvpn()
+            logging.info('changing vpn destination')
+            vpn.vpn()
             sleep(5)
             if attempts > max_attempts:
                 context.browser.close()
@@ -111,10 +109,8 @@ def reloading_page(page):
         
         except TimeoutError as e:
             logging.info(f'{e}page failed to reload timeout')
-            logging.info('stopping vpn')
-            vpn.stop_openvpn()
-            logging.info('starting vpn')
-            vpn.start_openvpn()
+            logging.info('changing vpn destination')
+            vpn.vpn()
             sleep(5)
             if attempts > max_attempts:
                 logging.info('max atempts reached exiting')
