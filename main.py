@@ -19,8 +19,8 @@ logging.basicConfig(
 load_dotenv()
 
 
-LINK = os.getenv('BEST_BUY_LINK')
-#LINK_5000 = os.getenv('BEST_BUY_LINK_5000')
+#LINK = os.getenv('BEST_BUY_LINK')
+LINK = os.getenv('BEST_BUY_LINK_ALL')
 #LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
@@ -111,7 +111,9 @@ def reloading_page(page):
             logging.info(f'{e}page failed to reload timeout')
             logging.info('changing vpn destination')
             vpn.vpn()
-            sleep(5)
+            sleep(7)
+            public_ip = vpn.get_public_ip()
+            logging.info(f'vpn connected to {public_ip}')
             if attempts > max_attempts:
                 logging.info('max atempts reached exiting')
                 quit()

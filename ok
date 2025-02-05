@@ -1,1 +1,4 @@
 <button class="c-button c-button-disabled c-button-lg c-button-block add-to-cart-button " disabled="" type="button" data-sku-id="6614151" data-button-state="SOLD_OUT" style="padding:0 8px;margin-bottom:8px;margin-left:0px">Sold Out</button>
+
+
+<button class="c-button c-button-disabled c-button-sm c-button-block add-to-cart-button " disabled="" type="button" data-sku-id="6614151" data-button-state="SOLD_OUT" style="padding:0 8px;margin-bottom:8px;margin-left:0px">Sold Out</button>

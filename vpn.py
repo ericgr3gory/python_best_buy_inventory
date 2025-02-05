@@ -4,6 +4,7 @@ import logging
 import glob
 import random
 from pathlib import Path
+import requests
 
 def run_command(command):
     """
@@ -20,14 +21,15 @@ def run_command(command):
         )
         return result.stdout.strip()
     except subprocess.CalledProcessError as err:
-        print(f"Error running command: {' '.join(command)}")
-        print(f"Return code: {err.returncode}")
-        print(f"Error output: {err.stderr}")
+        logging.info(f"Error running command: {' '.join(command)}")
+        logging.info(f"Return code: {err.returncode}")
+        logging.info(f"Error output: {err.stderr}")
         return None
     
 def openvpn_conf_files():
     file_pattern = "/etc/openvpn/*.conf"
     config_file_list = glob.glob(file_pattern)
+    logging.info('retrieving config files')
     return remove_file_extension(config_file_list)
 
 def remove_file_extension(files):
@@ -38,12 +40,22 @@ def remove_file_extension(files):
     return file_extension_removed
     
 def pick_random_openvpn_config(config_file_list):
-    return random.choice(config_file_list)    
+    logging.info('picking random config file')
+    return random.choice(config_file_list)
+    
+def get_public_ip():
+    try:
+        public_ip = requests.get('https://api.ipify.org').text
+    except requests.RequestException as e:
+        public_ip = None
+        print("Error:", e)
+    return public_ip
 
 def start_openvpn(openvpn_config_list):
     ov_config = pick_random_openvpn_config(openvpn_config_list)
     ov_config = f"openvpn@{ov_config}.service"
     command = ["sudo", "systemctl", "start", ov_config]
+    logging.info('connecting to vpn')
     run_command(command)
     return command
 
@@ -70,7 +82,7 @@ def stop_openvpn():
             ov_config = f"openvpn@{instance_name}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
             run_command(command)
-            
+            logging.info('disconneting form vpn')
             
 def vpn():
     stop_openvpn()
