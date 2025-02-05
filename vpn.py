@@ -71,13 +71,14 @@ def stop_openvpn():
             command = ["sudo", "systemctl", "stop", ov_config]
             
             
-            
+def vpn():
+    stop_openvpn()
+    configs = openvpn_conf_files()
+    start_openvpn(configs)
     
 
     
     
     
 if __name__ == '__main__':
-    stop_openvpn()
-    configs = openvpn_conf_files()
-    start_openvpn(configs)
+    
