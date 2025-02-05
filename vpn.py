@@ -76,9 +76,9 @@ def vpnstart():
     configs = openvpn_conf_files()
     start_openvpn(configs)
     
-
-    
+def main():
+    vpnstart()
     
     
 if __name__ == '__main__':
-    vpnstart()
+    main()
