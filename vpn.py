@@ -5,6 +5,7 @@ import glob
 import random
 from pathlib import Path
 import requests
+from time import sleep
 
 logging.basicConfig(
     level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -100,6 +101,9 @@ def vpn():
     configs = openvpn_conf_files()
     start_openvpn(configs)
     public_ip = get_public_ip()
+    while public_ip == "172.233.141.177" or public_ip == None:
+        sleep(2)
+        
     logging.info(f'vpn connected to {public_ip}')
     
 def main():
