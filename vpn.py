@@ -6,6 +6,17 @@ import random
 from pathlib import Path
 import requests
 
+logging.basicConfig(
+    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s [%(levelname)s] %(message)s',  # Log message format
+    datefmt='%Y-%m-%d %H:%M:%S',  # Date format
+    handlers=[
+        logging.StreamHandler(),  # Output logs to the console
+        logging.FileHandler("script.log", mode='w')  # Output logs to a file (overwrites each run)
+    ]
+)
+
+
 def run_command(command):
     """
     Run a command using subprocess.run and return its output.
