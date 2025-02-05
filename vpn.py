@@ -69,6 +69,7 @@ def stop_openvpn():
             instance_name = config_path.stem
             ov_config = f"openvpn@{instance_name}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
+            run_command(command)
             
             
 def vpnstart():
