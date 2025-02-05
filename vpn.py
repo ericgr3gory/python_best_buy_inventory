@@ -104,6 +104,7 @@ def vpn():
     start_openvpn(configs)
     public_ip = get_public_ip()
     while public_ip == "172.233.141.177" or public_ip == None:
+        public_ip = get_public_ip()
         sleep(2)
         
     logging.info(f'vpn connected to {public_ip}')
