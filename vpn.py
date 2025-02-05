@@ -65,12 +65,11 @@ def stop_openvpn():
     if processes:
         for proc in processes:
             conf = (proc['cmdline'])
-            config_path = Path(conf[9])  # conf[9] should be the path after --config
-            instance_name = config_path.stem  # yields 'us-ca-246.protonvpn.udp'
+            config_path = Path(conf[9])
+            instance_name = config_path.stem
             ov_config = f"openvpn@{instance_name}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
-            print(command)
-            print(run_command(command))
+            
             
             
     
