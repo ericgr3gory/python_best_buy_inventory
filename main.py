@@ -119,6 +119,7 @@ def reloading_page(page):
                 quit()
 
 def main():
+    vpn.vpn()
     pw = start_playwright()
     browser, context, page = open_browser(pw)
     page = load_page(browser, context, page)
