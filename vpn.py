@@ -99,6 +99,8 @@ def vpn():
     stop_openvpn()
     configs = openvpn_conf_files()
     start_openvpn(configs)
+    public_ip = vpn.get_public_ip()
+    logging.info(f'vpn connected to {public_ip}')
     
 def main():
     vpn()
