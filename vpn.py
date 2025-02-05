@@ -72,14 +72,14 @@ def stop_openvpn():
             run_command(command)
             
             
-def vpnstart():
+def vpn():
     stop_openvpn()
     configs = openvpn_conf_files()
     start_openvpn(configs)
     
 def main():
-    vpnstart()
+    vpn()
     
     
 if __name__ == '__main__':
-    stop_openvpn()
+    vpn()
