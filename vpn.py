@@ -101,14 +101,16 @@ def stop_openvpn():
             logging.info('disconneting form vpn')
             
 def vpn():
-    current_ip = get_public_ip
     stop_openvpn()
+    current_ip = get_public_ip
+    logging.info(f'current ip {current_ip}')
     configs = openvpn_conf_files()
     start_openvpn(configs)
     vpn_public_ip = get_public_ip()
+    logging.info(f'vpn ip is {vpn_public_ip} and current {current_ip}')
     while vpn_public_ip == current_ip or vpn_public_ip == None:
         sleep(8)
-        public_ip = get_public_ip()
+        vpn_public_ip = get_public_ip()
         
         
     logging.info(f'vpn connected to {vpn_public_ip}')
