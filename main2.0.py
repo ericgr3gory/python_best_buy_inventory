@@ -51,7 +51,7 @@ def load_page(browser, context, page):
             logging.error(e)
             logging.info('Changing VPN destination')
             vpn.vpn()
-            sleep(5)
+            
     context.browser.close()
     quit("Page won't load")
 
@@ -92,7 +92,6 @@ def reloading_page(browser, context, page):
             logging.info(f'{e} - page failed to reload (attempt {attempts})')
             logging.info('Changing VPN destination')
             browser.close()
-            # Re-open browser and page if reload fails.
             return start_scraping_page()
     logging.info('Max attempts reached. Exiting.')
     quit()
@@ -103,7 +102,7 @@ def start_scraping_page():
     return load_page(browser, context, page)
 
 def main():
-    # start_scraping_page returns a tuple (page, browser, context)
+    
     page, browser, context = start_scraping_page()
     sku = LINK[-7:]
     button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
@@ -117,7 +116,7 @@ def main():
         logging.info('Run to the store')
         send_notification("BUY", LINK)
     
-    # Cleanup
+    
     context.browser.close()
     PW.stop()
 
