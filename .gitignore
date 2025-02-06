@@ -1,6 +1,6 @@
 .env
 .venv
-test_code
-opnv
+test_code/
+opnv/
 script.log
-__pycache__
+__pycache__/
