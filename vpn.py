@@ -102,7 +102,7 @@ def stop_openvpn():
             
 def vpn():
     stop_openvpn()
-    current_ip = get_public_ip
+    current_ip = get_public_ip()
     logging.info(f'current ip {current_ip}')
     configs = openvpn_conf_files()
     start_openvpn(configs)
