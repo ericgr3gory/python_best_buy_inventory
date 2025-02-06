@@ -107,10 +107,12 @@ def vpn():
     configs = openvpn_conf_files()
     start_openvpn(configs)
     vpn_public_ip = get_public_ip()
-    logging.info(f'vpn ip is {vpn_public_ip} and current {current_ip}')
+    logging.info(f'new ip is {vpn_public_ip} and old ip {current_ip}')
     while vpn_public_ip == current_ip or vpn_public_ip == None:
         sleep(8)
         vpn_public_ip = get_public_ip()
+        logging.info(f'new ip is {vpn_public_ip} and old ip {current_ip}')
+        
         
         
     logging.info(f'vpn connected to {vpn_public_ip}')
