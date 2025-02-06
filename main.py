@@ -23,14 +23,16 @@ LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_LINK_ALL')
 #LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
+PW = sync_playwright().start()
+
 
 def start_playwright():
     return sync_playwright().start() 
 
 
-def open_browser(pw):
+def open_browser(PW):
     
-    browser = pw.chromium.launch(headless=False,  # Run headless mode
+    browser = PW.chromium.launch(headless=False,  # Run headless mode
         args=["--use-fake-ui-for-media-stream"]  # Force geolocation permission
         )
     context = browser.new_context(
@@ -96,7 +98,7 @@ def check_button_state(page, sku, state):
         logging.error(e)
         return True
 
-def reloading_page(page):
+def reloading_page(browser, context, page):
     attempts = 0
     max_attempts = 5
     while True:
@@ -110,24 +112,28 @@ def reloading_page(page):
         except TimeoutError as e:
             logging.info(f'{e}page failed to reload timeout')
             logging.info('changing vpn destination')
-            vpn.vpn()
-            sleep(7)
+            browser.close()
+            return start_scraping_page()
+            
+            
            
             if attempts > max_attempts:
                 logging.info('max atempts reached exiting')
                 quit()
 
-def main():
+def start_scraping_page():
     vpn.vpn()
-    pw = start_playwright()
-    browser, context, page = open_browser(pw)
-    page = load_page(browser, context, page)
+    browser, context, page = open_browser(PW)
+    return load_page(browser, context, page)
+    
+    
+def main():
+    page = start_scraping_page()
     sku = (LINK[-7:])
-        
     button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
         
     while button_status_is_soldout:
-        reloading_page(page)
+        reloading_page(browser, context, page)
         button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
     button_status_is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')

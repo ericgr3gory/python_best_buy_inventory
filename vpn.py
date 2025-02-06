@@ -58,11 +58,11 @@ def pick_random_openvpn_config(config_file_list):
 def get_public_ip():
     try:
         public_ip = requests.get('https://api.ipify.org').text
-        logging.info(public_ip)
+        
     except requests.RequestException as e:
         public_ip = None
         logging.info("Error:", e)
-        logging.info(public_ip)
+        
     return public_ip
 
 def start_openvpn(openvpn_config_list):
@@ -104,8 +104,9 @@ def vpn():
     start_openvpn(configs)
     public_ip = get_public_ip()
     while public_ip == "172.233.141.177" or public_ip == None:
+        sleep(8)
         public_ip = get_public_ip()
-        sleep(5)
+        
         
     logging.info(f'vpn connected to {public_ip}')
     
