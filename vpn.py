@@ -6,6 +6,7 @@ import random
 from pathlib import Path
 import requests
 from time import sleep
+from dotenv import load_dotenv
 
 logging.basicConfig(
     level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -81,6 +82,7 @@ def find_openvpn_processes():
             # Check if any argument in the command line contains "openvpn"
             if any("openvpn" in arg for arg in cmdline):
                 openvpn_processes.append(proc.info)
+                logging.info(f'vpn running{proc.info}')
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             continue
     return openvpn_processes
@@ -99,11 +101,12 @@ def stop_openvpn():
             logging.info('disconneting form vpn')
             
 def vpn():
+    current_ip = get_public_ip
     stop_openvpn()
     configs = openvpn_conf_files()
     start_openvpn(configs)
-    public_ip = get_public_ip()
-    while public_ip == "172.233.141.177" or public_ip == None:
+    vpn_public_ip = get_public_ip()
+    while vpn_public_ip == current_ip or vpn_public_ip == None:
         sleep(8)
         public_ip = get_public_ip()
         
@@ -115,4 +118,4 @@ def main():
     
     
 if __name__ == '__main__':
-    vpn()
+    main()
