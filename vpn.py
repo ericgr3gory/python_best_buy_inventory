@@ -111,7 +111,7 @@ def vpn():
         public_ip = get_public_ip()
         
         
-    logging.info(f'vpn connected to {public_ip}')
+    logging.info(f'vpn connected to {vpn_public_ip}')
     
 def main():
     vpn()
