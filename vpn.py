@@ -70,7 +70,7 @@ def start_openvpn(openvpn_config_list):
     ov_config = pick_random_openvpn_config(openvpn_config_list)
     ov_config = f"openvpn@{ov_config}.service"
     command = ["sudo", "systemctl", "start", ov_config]
-    logging.info('connecting to vpn')
+    logging.info(f'connecting to vpn {ov_config}')
     run_command(command)
     return command
 
