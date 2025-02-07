@@ -17,9 +17,9 @@ logging.basicConfig(
 )
 
 load_dotenv()
-#LINK = os.getenv('BEST_BUY_LINK')
+LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_LINK_ALL')
-LINK = os.getenv('BEST_BUY_LINK_TEST')
+#LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
 # Start a single Playwright instance.
