@@ -2,5 +2,4 @@
 .venv
 test_code/
 opnv/
-script.log
 __pycache__/
