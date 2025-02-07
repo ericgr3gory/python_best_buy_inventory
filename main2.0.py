@@ -76,10 +76,10 @@ def check_button_state(page, sku, state):
         logging.info(f"Button disabled state: {disabled_state}")
         state_count = page.locator(f'[data-button-state="{state}"]').count() > 0
         logging.info(f"Button state '{state}' exists: {state_count}")
-        return disabled_state and state_count
+        return (disabled_state, state_count)
     except TimeoutError as e:
         logging.error(e)
-        return True
+        return True, True
 
 def reloading_page(browser, context, page):
     attempts = 0
@@ -108,14 +108,14 @@ def main():
     
     page, browser, context = start_scraping_page()
     sku = LINK[-7:]
-    button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
+    button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
-    while button_status_is_soldout:
+    while button_disabled and is_soldout:
         page, browser, context = reloading_page(browser, context, page)
-        button_status_is_soldout = check_button_state(page, sku, 'SOLD_OUT')
+        button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
-    button_status_is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
-    if button_status_is_add_cart:
+    button_enabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
+    if button_enabled and is_add_cart:
         logging.info('Run to the store')
         send_notification("BUY", LINK)
     
