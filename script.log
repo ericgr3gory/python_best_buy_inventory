@@ -1,4 +1,104 @@
-2025-02-05 12:01:48 [INFO] Browser with context created
-2025-02-05 12:01:48 [INFO] page created
-2025-02-05 12:01:48 [INFO] 1 attempts to Load Page to Browser
-2025-02-05 12:01:54 [INFO] page loaded
+2025-02-07 13:41:59 [INFO] vpn running{'name': 'openvpn', 'pid': 197669, 'cmdline': ['/usr/sbin/openvpn', '--daemon', 'ovpn-us-ut-81.protonvpn.udp', '--status', '/run/openvpn/us-ut-81.protonvpn.udp.status', '10', '--cd', '/etc/openvpn', '--config', '/etc/openvpn/us-ut-81.protonvpn.udp.conf', '--writepid', '/run/openvpn/us-ut-81.protonvpn.udp.pid']}
+2025-02-07 13:42:00 [INFO] disconneting form vpn
+2025-02-07 13:42:01 [INFO] current ip 50.159.19.77
+2025-02-07 13:42:01 [INFO] retrieving config files
+2025-02-07 13:42:01 [INFO] picking random config file
+2025-02-07 13:42:01 [INFO] connecting to vpn openvpn@us-ut-81.protonvpn.udp.service
+2025-02-07 13:42:01 [INFO] new ip is 50.159.19.77 and old ip 50.159.19.77
+2025-02-07 13:42:09 [INFO] new ip is 216.224.124.7 and old ip 50.159.19.77
+2025-02-07 13:42:09 [INFO] vpn connected to 216.224.124.7
+2025-02-07 13:42:09 [INFO] Browser with context created
+2025-02-07 13:42:10 [INFO] Page created
+2025-02-07 13:42:10 [INFO] 1 attempts to load page
+2025-02-07 13:42:12 [INFO] Page loaded
+2025-02-07 13:42:42 [ERROR] Locator.is_disabled: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("[data-sku-id='6614151']")
+
+2025-02-07 13:42:42 [INFO] trying to click international shopping USA link
+2025-02-07 13:42:44 [INFO] clicked
+2025-02-07 13:42:44 [INFO] Trying to reload
+2025-02-07 13:42:49 [INFO] Page reloaded
+2025-02-07 13:42:49 [INFO] Button disabled state: True
+2025-02-07 13:42:49 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:42:49 [INFO] Trying to reload
+2025-02-07 13:42:52 [INFO] Page reloaded
+2025-02-07 13:42:52 [INFO] Button disabled state: True
+2025-02-07 13:42:52 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:42:52 [INFO] Trying to reload
+2025-02-07 13:42:54 [INFO] Page reloaded
+2025-02-07 13:42:54 [INFO] Button disabled state: True
+2025-02-07 13:42:54 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:42:54 [INFO] Trying to reload
+2025-02-07 13:42:57 [INFO] Page reloaded
+2025-02-07 13:42:57 [INFO] Button disabled state: True
+2025-02-07 13:42:57 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:42:57 [INFO] Trying to reload
+2025-02-07 13:43:00 [INFO] Page reloaded
+2025-02-07 13:43:00 [INFO] Button disabled state: True
+2025-02-07 13:43:00 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:00 [INFO] Trying to reload
+2025-02-07 13:43:02 [INFO] Page reloaded
+2025-02-07 13:43:02 [INFO] Button disabled state: True
+2025-02-07 13:43:02 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:02 [INFO] Trying to reload
+2025-02-07 13:43:06 [INFO] Page reloaded
+2025-02-07 13:43:06 [INFO] Button disabled state: True
+2025-02-07 13:43:06 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:06 [INFO] Trying to reload
+2025-02-07 13:43:09 [INFO] Page reloaded
+2025-02-07 13:43:09 [INFO] Button disabled state: True
+2025-02-07 13:43:09 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:09 [INFO] Trying to reload
+2025-02-07 13:43:13 [INFO] Page reloaded
+2025-02-07 13:43:13 [INFO] Button disabled state: True
+2025-02-07 13:43:13 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:13 [INFO] Trying to reload
+2025-02-07 13:43:16 [INFO] Page reloaded
+2025-02-07 13:43:16 [INFO] Button disabled state: True
+2025-02-07 13:43:16 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:16 [INFO] Trying to reload
+2025-02-07 13:43:21 [INFO] Page reloaded
+2025-02-07 13:43:21 [INFO] Button disabled state: True
+2025-02-07 13:43:21 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:21 [INFO] Trying to reload
+2025-02-07 13:43:25 [INFO] Page reloaded
+2025-02-07 13:43:25 [INFO] Button disabled state: True
+2025-02-07 13:43:25 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:25 [INFO] Trying to reload
+2025-02-07 13:43:28 [INFO] Page reloaded
+2025-02-07 13:43:28 [INFO] Button disabled state: True
+2025-02-07 13:43:28 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:28 [INFO] Trying to reload
+2025-02-07 13:43:32 [INFO] Page reloaded
+2025-02-07 13:43:32 [INFO] Button disabled state: True
+2025-02-07 13:43:32 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:32 [INFO] Trying to reload
+2025-02-07 13:43:36 [INFO] Page reloaded
+2025-02-07 13:43:36 [INFO] Button disabled state: True
+2025-02-07 13:43:36 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:36 [INFO] Trying to reload
+2025-02-07 13:43:39 [INFO] Page reloaded
+2025-02-07 13:43:39 [INFO] Button disabled state: True
+2025-02-07 13:43:39 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:39 [INFO] Trying to reload
+2025-02-07 13:43:41 [INFO] Page reloaded
+2025-02-07 13:43:41 [INFO] Button disabled state: True
+2025-02-07 13:43:41 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:41 [INFO] Trying to reload
+2025-02-07 13:43:46 [INFO] Page reloaded
+2025-02-07 13:43:46 [INFO] Button disabled state: True
+2025-02-07 13:43:46 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:46 [INFO] Trying to reload
+2025-02-07 13:43:50 [INFO] Page reloaded
+2025-02-07 13:43:50 [INFO] Button disabled state: True
+2025-02-07 13:43:50 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:50 [INFO] Trying to reload
+2025-02-07 13:43:55 [INFO] Page reloaded
+2025-02-07 13:43:55 [INFO] Button disabled state: True
+2025-02-07 13:43:55 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:55 [INFO] Trying to reload
+2025-02-07 13:43:58 [INFO] Page reloaded
+2025-02-07 13:43:59 [INFO] Button disabled state: True
+2025-02-07 13:43:59 [INFO] Button state 'SOLD_OUT' exists: True
+2025-02-07 13:43:59 [INFO] Trying to reload
