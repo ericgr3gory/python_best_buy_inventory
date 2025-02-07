@@ -85,7 +85,7 @@ def check_button_state(page, sku, state):
 def international_page(page):
     try:
         logging.info('trying to click international shopping USA link')
-        page.locator("a.us-link:has(img[alt='United States'])").first.1click()
+        page.locator("a.us-link:has(img[alt='United States'])").first.click()
         logging.info('clicked')
     
     except TimeoutError as e:
