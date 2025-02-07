@@ -114,8 +114,8 @@ def main():
         page, browser, context = reloading_page(browser, context, page)
         button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
-    button_enabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
-    if is_add_cart:
+    button_disabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
+    if is_add_cart and not button_disabled:
         logging.info('Run to the store')
         send_notification("BUY", LINK)
     
