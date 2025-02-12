@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import requests
 import logging
 import vpn
+import sys
 
 logging.basicConfig(
     level=logging.INFO,
@@ -103,20 +104,18 @@ def reloading_page(browser, context, page):
             page.reload()
             logging.info('Page reloaded')
             return page, browser, context
-        except TimeoutError as e:
-            logging.info(f'{e} - page failed to reload (attempt {attempts})')
-            browser.close()
-            return start_scraping_page()
-        except Error as e:
-            if "Page crashed" in str(e):
+        except (TimeoutError, Error) as e:
+            
+            if isinstance(e, TimeoutError) or "Page crashed" in str(e):
                 logging.info(f'{e} - page failed to reload (attempt {attempts})')
                 browser.close()
                 return start_scraping_page()
-            
-            
+            else:
+                raise
             
     logging.info('Max attempts reached. Exiting.')
-    quit()
+    sys.exit("Max attempts reached.")
+    
 
 def start_scraping_page():
     vpn.vpn()
