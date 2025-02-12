@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright, TimeoutError
+from playwright._impl._errors import Error
 from time import sleep
 import os
 from dotenv import load_dotenv
@@ -104,9 +105,16 @@ def reloading_page(browser, context, page):
             return page, browser, context
         except TimeoutError as e:
             logging.info(f'{e} - page failed to reload (attempt {attempts})')
-            logging.info('Changing VPN destination')
             browser.close()
             return start_scraping_page()
+        except Error as e:
+            if "Page crashed" in str(e):
+                logging.info(f'{e} - page failed to reload (attempt {attempts})')
+                browser.close()
+                return start_scraping_page()
+            
+            
+            
     logging.info('Max attempts reached. Exiting.')
     quit()
 
