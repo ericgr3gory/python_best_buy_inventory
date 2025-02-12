@@ -19,9 +19,9 @@ logging.basicConfig(
 )
 
 load_dotenv()
-LINK = os.getenv('BEST_BUY_LINK')
+#LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_LINK_ALL')
-#LINK = os.getenv('BEST_BUY_LINK_TEST')
+LINK = os.getenv('BEST_BUY_LINK_TEST')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
 # Start a single Playwright instance.
@@ -133,7 +133,7 @@ def main():
         button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
     button_disabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
-    if is_add_cart and not button_disabled:
+    if is_add_cart or not button_disabled:
         logging.info('Run to the store')
         send_notification("BUY", LINK)
     
