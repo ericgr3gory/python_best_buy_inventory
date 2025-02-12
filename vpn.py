@@ -78,7 +78,7 @@ def find_openvpn_processes():
     openvpn_processes = []
     for proc in psutil.process_iter(attrs=["pid", "name", "cmdline"]):
         try:
-            cmdline = proc.info.get("cmdline", [])
+            cmdline = proc.info.get("cmdline") or []
             # Check if any argument in the command line contains "openvpn"
             if any("openvpn" in arg for arg in cmdline):
                 openvpn_processes.append(proc.info)
