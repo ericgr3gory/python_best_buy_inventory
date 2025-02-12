@@ -14,7 +14,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler("/home/ericgr3gory/.local/logs/best_buy_scrape.log", mode='w')
+        logging.FileHandler("/home/ericgr3gory/.local/logs/best_buy_scrape.log", mode='a')
     ]
 )
 
