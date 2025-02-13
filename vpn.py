@@ -74,6 +74,25 @@ def start_openvpn(openvpn_config_list):
     run_command(command)
     return command
 
+
+def stop_openvpn():
+    processes = find_openvpn_processes()
+    if processes:
+        for proc in processes:
+            cmd = proc.get("cmdline", [])
+            # Look for an argument that ends with ".conf"
+            conf_file = next((arg for arg in cmd if arg.endswith(".conf")), None)
+            if not conf_file:
+                logging.warning("No config file found in process cmdline: %s", cmd)
+                continue  # Skip this process if no config file was found
+            config_path = Path(conf_file)
+            instance_name = config_path.stem
+            ov_config = f"openvpn@{instance_name}.service"
+            command = ["sudo", "systemctl", "stop", ov_config]
+            run_command(command)
+            logging.info('disconnecting from vpn')
+
+
 def find_openvpn_processes():
     openvpn_processes = []
     for proc in psutil.process_iter(attrs=["pid", "name", "cmdline"]):
@@ -88,7 +107,7 @@ def find_openvpn_processes():
     return openvpn_processes
 
 
-def stop_openvpn():
+'''def stop_openvpn():
     processes = find_openvpn_processes()
     if processes:
         for proc in processes:
@@ -98,7 +117,7 @@ def stop_openvpn():
             ov_config = f"openvpn@{instance_name}.service"
             command = ["sudo", "systemctl", "stop", ov_config]
             run_command(command)
-            logging.info('disconneting form vpn')
+            logging.info('disconneting form vpn')'''
             
 def vpn():
     stop_openvpn()
