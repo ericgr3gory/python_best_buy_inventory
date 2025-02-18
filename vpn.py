@@ -6,7 +6,7 @@ import random
 from pathlib import Path
 import requests
 from time import sleep
-from dotenv import load_dotenv
+
 
 logging.basicConfig(
     level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -62,7 +62,7 @@ def get_public_ip():
         
     except requests.RequestException as e:
         public_ip = None
-        logging.info("Error:", e)
+        logging.info("Error: %s", e)
         
     return public_ip
 
@@ -107,17 +107,24 @@ def find_openvpn_processes():
     return openvpn_processes
 
 
-'''def stop_openvpn():
-    processes = find_openvpn_processes()
-    if processes:
-        for proc in processes:
-            conf = (proc['cmdline'])
-            config_path = Path(conf[9])
-            instance_name = config_path.stem
-            ov_config = f"openvpn@{instance_name}.service"
-            command = ["sudo", "systemctl", "stop", ov_config]
-            run_command(command)
-            logging.info('disconneting form vpn')'''
+def check_connection(public_ip):
+    
+    vpn_public_ip = get_public_ip()  
+    max_attempts = 3
+    attempts_waiting_on_connection = 0
+    
+    while vpn_public_ip == public_ip or vpn_public_ip == None:
+        attempts_waiting_on_connection = attempts_waiting_on_connection + 1
+        if attempts_waiting_on_connection > max_attempts:
+            logging.info('vpn connection failed starting a new connection')
+            vpn()
+        else:
+            sleep(8)
+            vpn_public_ip = get_public_ip()
+            logging.info(f'vpn ip is {vpn_public_ip} and public ip was {public_ip}')
+    
+    return True
+    
             
 def vpn():
     stop_openvpn()
@@ -125,16 +132,10 @@ def vpn():
     logging.info(f'current ip {current_ip}')
     configs = openvpn_conf_files()
     start_openvpn(configs)
-    vpn_public_ip = get_public_ip()
-    logging.info(f'new ip is {vpn_public_ip} and old ip {current_ip}')
-    while vpn_public_ip == current_ip or vpn_public_ip == None:
-        sleep(8)
-        vpn_public_ip = get_public_ip()
-        logging.info(f'new ip is {vpn_public_ip} and old ip {current_ip}')
-        
-        
-        
-    logging.info(f'vpn connected to {vpn_public_ip}')
+    sleep(10)
+    verify_connection = check_connection(current_ip)
+    if verify_connection:
+        logging.info(f'Connection established: {verify_connection}')
     
 def main():
     vpn()
