@@ -6,7 +6,7 @@ import random
 from pathlib import Path
 import requests
 from time import sleep
-
+import re
 
 logging.basicConfig(
     level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -106,6 +106,12 @@ def find_openvpn_processes():
             continue
     return openvpn_processes
 
+def check_connection_v2():
+    pattern = re.compile(r"Initialization Sequence Completed")
+    with open("/var/log/openvpn.log", "r") as f:
+        for line in f:
+            if pattern.search(line):
+                print(line, end="")
 
 def check_connection(public_ip):
     
