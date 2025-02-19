@@ -106,7 +106,7 @@ def find_openvpn_processes():
             continue
     return openvpn_processes
 
-def check_connection_v2():
+def check_connection():
     pattern = re.compile(r"Initialization Sequence Completed")
     with open("/var/log/openvpn.log", "r") as f:
         for line in f:
@@ -114,7 +114,7 @@ def check_connection_v2():
                 logging.info(f'{line}')
                 return True
 
-def check_connection(public_ip):
+def check_connection_dep(public_ip):
     
     vpn_public_ip = get_public_ip()  
     max_attempts = 3
@@ -140,7 +140,7 @@ def vpn():
     configs = openvpn_conf_files()
     start_openvpn(configs)
     sleep(10)
-    verify_connection = check_connection(current_ip)
+    verify_connection = check_connection()
     if verify_connection:
         logging.info(f'Connection established: {verify_connection}')
     
