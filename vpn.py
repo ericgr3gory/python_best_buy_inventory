@@ -111,7 +111,8 @@ def check_connection_v2():
     with open("/var/log/openvpn.log", "r") as f:
         for line in f:
             if pattern.search(line):
-                print(line, end="")
+                logging.info(f'{line}')
+                return True
 
 def check_connection(public_ip):
     
