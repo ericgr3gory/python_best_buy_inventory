@@ -39,7 +39,7 @@ def open_browser(PW):
     )
     logging.info('Browser with context created')
     page = context.new_page()
-    logging.info('Page created')
+    logging.info(f'Page created {LINK}')
     return browser, context, page
 
 def load_page(browser, context, page):
@@ -100,7 +100,7 @@ def reloading_page(browser, context, page):
     while attempts < max_attempts:
         attempts += 1
         try:
-            logging.info('Trying to reload')
+            logging.info(f'Trying to reload{LINK}')
             page.reload()
             logging.info('Page reloaded')
             return page, browser, context
