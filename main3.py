@@ -53,7 +53,7 @@ def load_page(browser, context, page):
             return page, browser, context
         except TimeoutError as e:
             logging.error(e)
-            logging.info('Changing VPN destination')
+            
             
             
     context.browser.close()
@@ -124,11 +124,11 @@ def main():
     
     page, browser, context = start_scraping_page()
     sku = LINK[-7:]
-    button_disabled, is_soldout = check_button_state(page, sku, 'COMING_SOON')
+    button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
     while button_disabled and is_soldout:
         page, browser, context = reloading_page(browser, context, page)
-        button_disabled, is_soldout = check_button_state(page, sku, 'COMING_SOON')
+        button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
     button_disabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
     if is_add_cart or not button_disabled:
