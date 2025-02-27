@@ -25,6 +25,12 @@ LINK = os.getenv('BEST_BUY_LINK')
 #LINK = os.getenv('BEST_BUY_giga_5090')
 
 # Start a single Playwright instance.
+
+def handle_exception(exc_type, exc_value, exc_tb):
+    logging.exception("Uncaught exception", exc_info=(exc_type, exc_value, exc_tb))
+
+sys.excepthook = handle_exception
+
 PW = sync_playwright().start()
 
 def open_browser(PW):
@@ -52,13 +58,17 @@ def load_page(browser, context, page):
             page.goto(LINK)
             logging.info('Page loaded')
             return page, browser, context
-        except TimeoutError as e:
-            logging.error(e)
-            logging.info('Changing VPN destination')
-            vpn.vpn()
+        except (TimeoutError, Error) as e:
             
-    context.browser.close()
-    quit("Page won't load")
+            if isinstance(e, TimeoutError) or "Page crashed" in str(e):
+                logging.info(f'{e} - page failed to reload (attempt {attempts})')
+                browser.close()
+                return start_scraping_page()
+            else:
+                raise
+            
+    logging.info('Max attempts reached. Exiting.')
+    sys.exit("Max attempts reached.")
 
 def send_notification(title, message):
     API_TOKEN = os.getenv('API_TOKEN')
