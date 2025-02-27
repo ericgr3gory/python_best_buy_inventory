@@ -113,7 +113,8 @@ def check_connection():
             if pattern.search(line):
                 logging.info(f'{line}')
                 return True
-
+            
+'''
 def check_connection_dep(public_ip):
     
     vpn_public_ip = get_public_ip()  
@@ -131,7 +132,7 @@ def check_connection_dep(public_ip):
             logging.info(f'vpn ip is {vpn_public_ip} and public ip was {public_ip}')
     
     return True
-    
+'''    
             
 def vpn():
     stop_openvpn()
@@ -143,7 +144,10 @@ def vpn():
     verify_connection = check_connection()
     if verify_connection:
         logging.info(f'Connection established: {verify_connection}')
-    
+    else:
+        logging.info('no vpn started')
+        quit('exitting')
+           
 def main():
     vpn()
     
