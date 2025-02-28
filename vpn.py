@@ -66,13 +66,12 @@ def get_public_ip():
         
     return public_ip
 
-def start_openvpn(openvpn_config_list):
-    ov_config = pick_random_openvpn_config(openvpn_config_list)
-    ov_config = f"openvpn@{ov_config}.service"
-    command = ["sudo", "systemctl", "start", ov_config]
-    logging.info(f'connecting to vpn {ov_config}')
+def start_openvpn(openvpn_config):
+    config = f"openvpn@{openvpn_config}.service"
+    command = ["sudo", "systemctl", "start", config]
+    logging.info(f'connecting to vpn {config}')
     run_command(command)
-    return command
+    
 
 
 def stop_openvpn():
@@ -113,6 +112,7 @@ def check_connection():
             if pattern.search(line):
                 logging.info(f'{line}')
                 return True
+    return False
             
 '''
 def check_connection_dep(public_ip):
@@ -139,18 +139,20 @@ def vpn():
     current_ip = get_public_ip()
     logging.info(f'current ip {current_ip}')
     configs = openvpn_conf_files()
-    start_openvpn(configs)
-    sleep(10)
+    random_config = pick_random_openvpn_config(configs)
+    start_openvpn(random_config)
+    sleep(15)
     verify_connection = check_connection()
     if verify_connection:
         logging.info(f'Connection established: {verify_connection}')
+        return True
     else:
-        logging.info('no vpn started')
-        quit('exitting')
+        logging.info('VPN failed to start')
+        return False
            
 def main():
-    vpn()
-    
+    while not vpn():
+        sleep(10)
     
 if __name__ == '__main__':
     main()
