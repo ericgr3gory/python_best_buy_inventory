@@ -142,8 +142,8 @@ def vpn():
     random_config = pick_random_openvpn_config(configs)
     start_openvpn(random_config)
     sleep(15)
-    verify_connection = check_connection()
-    if verify_connection:
+    
+    if check_connection():
         logging.info(f'Connection established: {verify_connection}')
         return True
     else:
