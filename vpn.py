@@ -144,7 +144,7 @@ def vpn():
     sleep(15)
     
     if check_connection():
-        logging.info(f'Connection established: {verify_connection}')
+        logging.info(f'VPN Connection established at {get_public_ip()}')
         return True
     else:
         logging.info('VPN failed to start')
