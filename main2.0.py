@@ -119,6 +119,7 @@ def reloading_page(browser, context, page):
             if isinstance(e, TimeoutError) or "Page crashed" in str(e):
                 logging.info(f'{e} - page failed to reload (attempt {attempts})')
                 browser.close()
+                logging.info("browser closed after unsuccesful reload")
                 return start_scraping_page()
             else:
                 raise
@@ -128,6 +129,7 @@ def reloading_page(browser, context, page):
     
 
 def start_scraping_page():
+    logging.info('starting the scrape')
     vpn.vpn()
     browser, context, page = open_browser(PW)
     return load_page(browser, context, page)
