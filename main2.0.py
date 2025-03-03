@@ -136,7 +136,7 @@ def start_scraping_page():
 
 def main():
     
-    page, browser, context = start_scraping_page()
+    browser, context, page = start_scraping_page()
     sku = LINK[-7:]
     button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
