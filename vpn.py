@@ -112,27 +112,7 @@ def check_connection():
             if pattern.search(line):
                 logging.info(f'{line}')
                 return True
-    return False
-            
-'''
-def check_connection_dep(public_ip):
-    
-    vpn_public_ip = get_public_ip()  
-    max_attempts = 3
-    attempts_waiting_on_connection = 0
-    
-    while vpn_public_ip == public_ip or vpn_public_ip == None:
-        attempts_waiting_on_connection = attempts_waiting_on_connection + 1
-        if attempts_waiting_on_connection > max_attempts:
-            logging.info('vpn connection failed starting a new connection')
-            vpn()
-        else:
-            sleep(8)
-            vpn_public_ip = get_public_ip()
-            logging.info(f'vpn ip is {vpn_public_ip} and public ip was {public_ip}')
-    
-    return True
-'''    
+    return False    
             
 def vpn():
     stop_openvpn()

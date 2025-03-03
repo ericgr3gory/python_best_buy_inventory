@@ -45,30 +45,30 @@ def open_browser(PW):
     )
     logging.info('Browser with context created')
     page = context.new_page()
-    logging.info(f'Page created {LINK}')
+    logging.info(f'Page created')
     return browser, context, page
 
 def load_page(browser, context, page):
-    attempts = 0
-    max_attempts = 10
-    while attempts < max_attempts:
-        attempts += 1
-        logging.info(f'{attempts} attempts to load page')
+    while True:
         try:
             page.goto(LINK)
-            logging.info('Page loaded')
+            logging.info('Page loaded {LINK}')
             return browser, context, page
         except (TimeoutError, Error) as e:
             
             if isinstance(e, TimeoutError) or "Page crashed" in str(e):
-                logging.info(f'{e} - page failed to reload (attempt {attempts})')
+                logging.error(f'{e}')
+                try:
+                    context.close()
+                except Exception as context_error:
+                    logging.error(f'Error while closing context: {context_error}')
                 browser.close()
+
+                logging.info('browser closed')
                 return start_scraping_page()
             else:
-                raise
+                logging.error(f'else reached with {e}')
             
-    logging.info('Max attempts reached. Exiting.')
-    sys.exit("Max attempts reached.")
 
 def send_notification(title, message):
     API_TOKEN = os.getenv('API_TOKEN')
@@ -135,23 +135,28 @@ def start_scraping_page():
     return load_page(browser, context, page)
 
 def main():
+    while True:
+        vpn.vpn()
+        browser, context, page = open_browser(PW)
+        browser, context, page = load_page(browser, context, page)
     
-    page, browser, context = start_scraping_page()
-    sku = LINK[-7:]
-    button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
-    
-    while button_disabled and is_soldout:
-        browser, context, page = reloading_page(browser, context, page)
+        sku = LINK[-7:]
         button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
     
-    button_disabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
-    if is_add_cart or not button_disabled:
-        logging.info('Run to the store')
-        send_notification("BUY", LINK)
+        while button_disabled and is_soldout:
+            browser, context, page = reloading_page(browser, context, page)
+            button_disabled, is_soldout = check_button_state(page, sku, 'SOLD_OUT')
+            
+        
+    
+        button_disabled, is_add_cart = check_button_state(page, sku, 'ADD_TO_CART')
+        if is_add_cart or not button_disabled:
+            logging.info('Run to the store')
+            send_notification("BUY", LINK)
     
     
-    context.browser.close()
-    PW.stop()
+        context.browser.close()
+        PW.stop()
 
 if __name__ == '__main__':
     main()
