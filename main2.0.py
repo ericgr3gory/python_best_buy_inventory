@@ -102,7 +102,8 @@ def international_page(page):
         logging.info('clicked')
     
     except TimeoutError as e:
-        logging.info('didnt find internal link')
+        logging.info('didnt find international link')
+        
     
 def start_scraping_page():
     logging.info('starting the scrape')
@@ -110,7 +111,7 @@ def start_scraping_page():
     browser, context, page = open_browser(PW)
     return load_page(browser, context, page, 'goto')
 
-def main():
+def scrape():
     
     browser, context, page = start_scraping_page()
     sku = LINK[-7:]
@@ -130,4 +131,4 @@ def main():
     PW.stop()
 
 if __name__ == '__main__':
-    main()
+    scrape()

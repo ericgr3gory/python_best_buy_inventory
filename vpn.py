@@ -115,9 +115,10 @@ def check_connection():
     return False    
             
 def vpn():
-    stop_openvpn()
+    
     current_ip = get_public_ip()
     logging.info(f'current ip {current_ip}')
+    stop_openvpn()
     configs = openvpn_conf_files()
     random_config = pick_random_openvpn_config(configs)
     start_openvpn(random_config)
