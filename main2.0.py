@@ -60,7 +60,7 @@ def load_page(browser, context, page, action):
         
         except (TimeoutError, Error) as e:
             
-            if isinstance(e, TimeoutError) or "Page crashed" in str(e):
+            if isinstance(e, TimeoutError) or "Page crashed" in str(e) or "Page.reload" in str(e):
                 logging.info(f'{e} - page failed to reload')
                 browser.close()
                 return start_scraping_page()
